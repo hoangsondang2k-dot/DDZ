@@ -1,0 +1,103 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local Lighting = game:GetService("Lighting")
+
+local player = Players.LocalPlayer
+
+-- ===== BLUR =====
+local blur = Instance.new("BlurEffect")
+blur.Size = 0
+blur.Parent = Lighting
+
+-- ===== GUI =====
+local gui = Instance.new("ScreenGui")
+gui.Name = "AdvancedUIDemo"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- ===== NÚT ON / OFF (GIỮ NGUYÊN) =====
+local toggleBtn = Instance.new("TextButton", gui)
+toggleBtn.Size = UDim2.fromOffset(60, 60)
+toggleBtn.Position = UDim2.fromScale(0.85, 0.4)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(0,0,0)
+toggleBtn.Text = "ON"
+toggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextScaled = true
+toggleBtn.Active = true
+toggleBtn.Draggable = true
+
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0,14)
+
+-- ===== MENU (TO HƠN) =====
+local menu = Instance.new("Frame", gui)
+menu.Size = UDim2.fromScale(0.45, 0.5) -- to hơn
+menu.Position = UDim2.fromScale(0.275, 0.25)
+menu.BackgroundColor3 = Color3.fromRGB(25,25,25)
+menu.Visible = false
+menu.Active = true
+menu.Draggable = true
+menu.BackgroundTransparency = 1
+menu.Scale = 0.9
+
+Instance.new("UICorner", menu).CornerRadius = UDim.new(0,22)
+
+-- UI Scale (animation)
+local scale = Instance.new("UIScale", menu)
+scale.Scale = 0.9
+
+-- Title
+local title = Instance.new("TextLabel", menu)
+title.Size = UDim2.fromScale(1,0.18)
+title.Text = "MENU UI DEMO"
+title.Font = Enum.Font.GothamBold
+title.TextScaled = true
+title.TextColor3 = Color3.fromRGB(255,170,0)
+title.BackgroundTransparency = 1
+
+-- ===== TWEEN =====
+local openTween = TweenService:Create(
+	scale,
+	TweenInfo.new(0.25, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+	{Scale = 1}
+)
+
+local closeTween = TweenService:Create(
+	scale,
+	TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+	{Scale = 0.9}
+)
+
+local blurOn = TweenService:Create(
+	blur,
+	TweenInfo.new(0.25),
+	{Size = 18}
+)
+
+local blurOff = TweenService:Create(
+	blur,
+	TweenInfo.new(0.2),
+	{Size = 0}
+)
+
+-- ===== LOGIC =====
+local opened = false
+
+toggleBtn.MouseButton1Click:Connect(function()
+	opened = not opened
+
+	if opened then
+		toggleBtn.Text = "OFF"
+		menu.Visible = true
+		menu.BackgroundTransparency = 0
+		openTween:Play()
+		blurOn:Play()
+	else
+		toggleBtn.Text = "ON"
+		closeTween:Play()
+		blurOff:Play()
+		task.delay(0.2, function()
+			menu.Visible = false
+		end)
+	end
+end)
