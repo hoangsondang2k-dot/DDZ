@@ -1,0 +1,101 @@
+-- UI DEMO - SAFE VERSION
+-- Không exploit, không hack
+
+local player = game.Players.LocalPlayer
+
+-- GUI
+local gui = Instance.new("ScreenGui", player.PlayerGui)
+gui.Name = "BloxFruitsUIDemo"
+gui.ResetOnSpawn = false
+
+-- Main Frame
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.fromScale(0.35, 0.4)
+main.Position = UDim2.fromScale(0.325, 0.3)
+main.BackgroundColor3 = Color3.fromRGB(25,25,25)
+main.Visible = false
+main.Active = true
+main.Draggable = true
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,20)
+
+-- Title
+local title = Instance.new("TextLabel", main)
+title.Size = UDim2.fromScale(1,0.2)
+title.Text = "Blox Fruits UI DEMO"
+title.TextColor3 = Color3.fromRGB(255,170,0)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.GothamBold
+title.TextScaled = true
+
+-- Toggle Button
+local toggle = Instance.new("TextButton", main)
+toggle.Size = UDim2.fromScale(0.6,0.25)
+toggle.Position = UDim2.fromScale(0.2,0.5)
+toggle.Text = "ON"
+toggle.Font = Enum.Font.GothamBold
+toggle.TextScaled = true
+toggle.BackgroundColor3 = Color3.fromRGB(0,170,0)
+toggle.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", toggle).CornerRadius = UDim.new(0,15)
+
+local enabled = false
+
+toggle.MouseButton1Click:Connect(function()
+	enabled = not enabled
+	if enabled then
+		toggle.Text = "OFF"
+		toggle.BackgroundColor3 = Color3.fromRGB(170,0,0)
+	else
+		toggle.Text = "ON"
+		toggle.BackgroundColor3 = Color3.fromRGB(0,170,0)
+	end
+end)
+
+-- ===== GET KEY UI =====
+local keyGui = Instance.new("Frame", gui)
+keyGui.Size = UDim2.fromScale(0.35,0.3)
+keyGui.Position = UDim2.fromScale(0.325,0.35)
+keyGui.BackgroundColor3 = Color3.fromRGB(20,20,20)
+Instance.new("UICorner", keyGui).CornerRadius = UDim.new(0,20)
+
+local keyTitle = Instance.new("TextLabel", keyGui)
+keyTitle.Size = UDim2.fromScale(1,0.3)
+keyTitle.Text = "ENTER KEY"
+keyTitle.Font = Enum.Font.GothamBold
+keyTitle.TextScaled = true
+keyTitle.TextColor3 = Color3.fromRGB(0,200,255)
+keyTitle.BackgroundTransparency = 1
+
+local box = Instance.new("TextBox", keyGui)
+box.Size = UDim2.fromScale(0.8,0.25)
+box.Position = UDim2.fromScale(0.1,0.4)
+box.PlaceholderText = "Nhập key..."
+box.Text = ""
+box.Font = Enum.Font.Gotham
+box.TextScaled = true
+box.BackgroundColor3 = Color3.fromRGB(40,40,40)
+box.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", box).CornerRadius = UDim.new(0,12)
+
+local submit = Instance.new("TextButton", keyGui)
+submit.Size = UDim2.fromScale(0.5,0.2)
+submit.Position = UDim2.fromScale(0.25,0.7)
+submit.Text = "SUBMIT"
+submit.Font = Enum.Font.GothamBold
+submit.TextScaled = true
+submit.BackgroundColor3 = Color3.fromRGB(0,170,255)
+submit.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", submit).CornerRadius = UDim.new(0,12)
+
+-- KEY
+local CURRENT_KEY = "BF-UI-DEMO-2026"
+
+submit.MouseButton1Click:Connect(function()
+	if box.Text == CURRENT_KEY then
+		keyGui.Visible = false
+		main.Visible = true
+	else
+		box.Text = ""
+		box.PlaceholderText = "Sai key!"
+	end
+end)
